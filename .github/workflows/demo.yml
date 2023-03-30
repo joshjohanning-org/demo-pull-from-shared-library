@@ -16,7 +16,25 @@ jobs:
       
       - name: getting this repo
         uses: actions/checkout@v3
+
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ vars.DEMO_APP_LIBRARY_APP_ID }}
+          installation_id: ${{ vars.DEMO_APP_LIBRARY_INSTALLATION_ID }}
+          private_key: ${{ secrets.DEMO_APP_LIBRARY_PRIVATE_KEY }}
       
       - name: get the other repo
-        run: git clone https://github.com/joshjohanning-org/demo-shared-library-from-app.git
+        run: git clone https://user:${{ steps.generate_token.outputs.token }}@github.com/joshjohanning-org/demo-shared-library-from-app.git
     
+      - name: ls everything
+        run: ls -R
+        
+      - name: how are we doing with the api
+        run: | 
+          curl -L \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ steps.generate_token.outputs.token }}"\
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/rate_limit
