@@ -9,6 +9,21 @@ on:
   workflow_dispatch:
 
 jobs:
+  composite-action-test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: composite action
+      uses: joshjohanning-org/demo-shared-library-from-app@main
+    
+    - name: ls everything
+      run: |
+        ls -R
+      
+    - name: ls everything root?
+      run: |
+        cd ~
+        ls -R
+      
   build:
     runs-on: ubuntu-latest
 
