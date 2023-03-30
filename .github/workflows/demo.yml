@@ -1,0 +1,22 @@
+name: demo
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      
+      - name: getting this repo
+        uses: actions/checkout@v3
+      
+      - name: get the other repo
+        run: git clone https://github.com/joshjohanning-org/demo-shared-library-from-app.git
+    
